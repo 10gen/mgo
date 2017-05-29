@@ -4043,8 +4043,7 @@ type countCmd struct {
 	Skip  int32 ",omitempty"
 }
 
-// Count returns the total number of documents in the result set.
-func (q *Query) Count() (n int, err error) {
+func (q *Query) count() (n int64, err error) {
 	q.m.Lock()
 	session := q.session
 	op := q.op
@@ -4062,14 +4061,31 @@ func (q *Query) Count() (n int, err error) {
 	if query == nil {
 		query = bson.D{}
 	}
-	result := struct{ N int }{}
+	result := struct{ N int64 }{}
 	err = session.DB(dbname).Run(countCmd{cname, query, limit, op.skip}, &result)
 	return result.N, err
 }
 
+// Count returns the total number of documents in the result set.
+func (q *Query) Count() (n int, err error) {
+	n, err = q.count()
+	return int(n), err
+}
+
 // Count returns the total number of documents in the collection.
 func (c *Collection) Count() (n int, err error) {
-	return c.Find(nil).Count()
+	n, err = c.Find(nil).count()
+	return int(n), err
+}
+
+// Count64 returns the total number of documents in the result set.
+func (q *Query) Count64() (n int64, err error) {
+	return q.count()
+}
+
+// Count64 returns the total number of documents in the collection.
+func (c *Collection) Count64() (n int64, err error) {
+	return c.Find(nil).count()
 }
 
 type distinctCmd struct {
