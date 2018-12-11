@@ -1697,7 +1697,7 @@ func (s *S) TestFindIterLimit(c *C) {
 var cursorTimeout = flag.Bool("cursor-timeout", false, "Enable cursor timeout tests")
 
 // This error message varies based on server version.
-var cursorTimeoutRegex = "invalid cursor|cursor id .* not found"
+var cursorTimeoutRegex = "invalid cursor|Cursor not found, cursor id: .*|cursor id .* not found"
 
 func (s *S) TestFindIterCursorTimeout(c *C) {
 	if !*cursorTimeout {
