@@ -40,7 +40,7 @@ before_script:
 
 script:
     - (cd bson && go test -check.v)
-    - if [["$MONGODB" > "x86_64-3.0.1" ]]; then go test -check.v -fast -cursor-timeout; else go test -check.v -fast; fi
+    - if [[ "$MONGODB" > "x86_64-3.0.1" ]]; then go test -check.v -fast -cursor-timeout; else go test -check.v -fast; fi
     - (cd txn && go test -check.v)
 
 # vim:sw=4:ts=4:et
