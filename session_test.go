@@ -1704,6 +1704,10 @@ func (s *S) TestFindIterCursorTimeout(c *C) {
 		c.Skip("-cursor-timeout")
 	}
 
+	if !s.versionAtLeast(3, 0, 2) {
+		c.Skip("cursorTimeoutMillis parameter requires 3.0.2+")
+	}
+
 	session, err := mgo.Dial("localhost:40001")
 	c.Assert(err, IsNil)
 	defer session.Close()
@@ -1752,6 +1756,11 @@ func (s *S) TestFindIterCursorNoTimeout(c *C) {
 	if !*cursorTimeout {
 		c.Skip("-cursor-timeout")
 	}
+
+	if !s.versionAtLeast(3, 0, 2) {
+		c.Skip("cursorTimeoutMillis parameter requires 3.0.2+")
+	}
+
 	session, err := mgo.Dial("localhost:40001")
 	c.Assert(err, IsNil)
 	defer session.Close()
